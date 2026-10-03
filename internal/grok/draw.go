@@ -1,5 +1,6 @@
 // Package grok draws one quiz question from a live Grokipedia search.
 // Responses are not cached and are not written to disk.
+// A question that is built asks the Wayback Machine to save the pages it used.
 package grok
 
 import (
@@ -9,6 +10,7 @@ import (
 	"math/rand/v2"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/benoute/grokipedia-mcp/pkg/grokipedia"
@@ -21,11 +23,15 @@ type SearchFunc func(ctx context.Context, query string, limit, offset int) ([]gr
 // Client talks to Grokipedia through pkg/grokipedia.
 type Client struct {
 	search SearchFunc
+	save   SaveFunc
+
+	mu    sync.Mutex
+	saved map[string]bool
 }
 
 // New returns a client that uses the library search call.
 func New() *Client {
-	return &Client{search: librarySearch}
+	return &Client{search: librarySearch, save: waybackSave}
 }
 
 func librarySearch(ctx context.Context, query string, limit, offset int) ([]grokipedia.SearchResult, error) {
@@ -105,6 +111,7 @@ func (c *Client) oneOpen(ctx context.Context, cat quiz.Category, avoid map[strin
 		}
 		q, err := quiz.Build(answer, names, rng)
 		if err == nil {
+			c.backup(hits, q.Choices)
 			return q, nil
 		}
 		last = err

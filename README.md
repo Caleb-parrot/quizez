@@ -4,7 +4,7 @@ A local quiz in the terminal. Pick a category, then answer until you miss. The s
 
 ![QuizEZ question](quiz_example.png)
 
-Each question is a live search against [Grokipedia](https://grokipedia.com) through [`github.com/benoute/grokipedia-mcp/pkg/grokipedia`](https://github.com/benoute/grokipedia-mcp). The game asks which topic a short snippet belongs to. Snippets are not saved. The streak lives in memory until you quit.
+Each question is a live search against [Grokipedia](https://grokipedia.com) through [`github.com/benoute/grokipedia-mcp/pkg/grokipedia`](https://github.com/benoute/grokipedia-mcp). The game asks which topic a short snippet belongs to. Snippets are not saved on this computer. When a question is built, QuizEZ asks the [Wayback Machine](https://web.archive.org/save) to save the Grokipedia pages that question used. That request does not affect the round. The streak lives in memory until you quit.
 
 Built for [Omarchy](https://omarchy.org/). It is a TUI app, not an Omarchy shell plugin.
 
@@ -76,7 +76,7 @@ internal/game           streak, in memory
 internal/tui            menu and question screen
 ```
 
-Every question is a random Grokipedia search in the category you picked, so a round lasts until you miss. A 429 or 5xx skips that draw and tries another page. The article text is never written to disk.
+Every question is a random Grokipedia search in the category you picked, so a round lasts until you miss. A 429 or 5xx skips that draw and tries another page. The article text is never written to disk. A question that is built sends those page addresses to the Wayback Machine.
 
 ## License
 

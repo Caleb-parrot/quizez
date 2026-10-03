@@ -67,7 +67,8 @@ func usage() string {
   quizez -draw Science   print one question and exit
 
 Questions come from Grokipedia search at the moment they are asked.
-Nothing is written to disk. The streak lasts until you quit.
+Nothing is written to disk. A question that is built asks the Wayback Machine
+to save the pages it used. The streak lasts until you quit.
 
 TUI keys:
   1-9 space enter pick a category

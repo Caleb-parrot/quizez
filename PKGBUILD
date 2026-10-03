@@ -1,7 +1,7 @@
 # Maintainer: Caleb-parrot <288791519+Caleb-parrot@users.noreply.github.com>
 pkgname=quizez
 pkgver=0.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Grokipedia streak quiz for the terminal'
 arch=('x86_64')
 url='https://github.com/Caleb-parrot/quizez'
